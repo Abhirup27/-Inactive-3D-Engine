@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1620226126 source:c:\users\abhirup\documents\enlist\main.cpp
+	<iostream>
+	<glad/glad.h>
+	<GLFW/glfw3.h>
+	<math.h>
+	<random>
+	"shaders/test.vs"
+	"shaders/Tfrag.fs"
+
+1619428770 source:c:\users\abhirup\documents\enlist\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1620222606 c:\users\abhirup\documents\enlist\shaders\test.vs
+
+1620225345 c:\users\abhirup\documents\enlist\shaders\tfrag.fs
+
+1619625126 source:c:\users\abhirup\documents\enlist\test.cpp
+	<glad/glad.h>
+	<GLFW/glfw3.h>
+	<iostream>
+

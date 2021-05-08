@@ -1,12 +1,19 @@
+
 #include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
+#include<math.h>
+
+
+#include<SHADER_S.h>
+/*
 const char *vertexShaderSource =
 #include "shaders/test.vs"
 ;
 const char *fragmentShaderSource =
 #include "shaders/Tfrag.fs"
 ;
+*/
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     {
         std::cout<<glfwGetCurrentContext()<<std::endl;
@@ -54,18 +61,21 @@ void getShProgLinkError(unsigned int& Program)
 }
 int main()
 {
+
     GLfloat rvalue=0.1f,gvalue =0.2f, bvalue= 0.3f;
     float vertices[] = {
-        0.5f, 0.5f,0.0f,
-        0.5f, -0.5f, 0.0f,
-        -0.5f,-0.5f, 0.0f,
-        -0.5f,  0.5f, 0.0f
+    //positions        //Colors
+        0.5f, 0.5f,0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+        -0.5f,-0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+        -0.5f,  0.5f, 0.0f, 0.1f, 0.15f, 0.5f
     };
     unsigned int indices[] = {
     0, 1, 3,
     1, 2, 3
     };
     glfwInit();
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4.6);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -87,6 +97,7 @@ int main()
     }
     glViewport(0, 0, 1920, 1080);
 
+
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -101,6 +112,10 @@ int main()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices),indices, GL_STATIC_DRAW);
 
+
+    Shader ourShader("shaders/test.vs","shaders/Tfrag.fs");
+
+    /*
     //Creating Vertex Shader Object
     unsigned int vertexShader;
     vertexShader = glCreateShader(GL_VERTEX_SHADER); //creating object and telling it is a vertex
@@ -123,14 +138,15 @@ int main()
     glLinkProgram(shaderProgram);
     getShProgLinkError(shaderProgram);
 
-
-    glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 3* sizeof(float),(void*)0);  //Now we provide the vertex data from the buffer to the attribute of the shader program
+    */
+    glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 6* sizeof(float),(void*)0);  //Now we provide the vertex data from the buffer to the attribute of the shader program
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1,3, GL_FLOAT, GL_FALSE, 6* sizeof(float),(void*)(3*(sizeof(float))));
+    glEnableVertexAttribArray(1);
 
-
-    glUseProgram(shaderProgram); //Use shaderProgram object in shader or render calls
-    glDeleteShader(vertexShader); //deleting shader objects since we have linked the 2 shader programs
-    glDeleteShader(fragmentShader);
+    //glUseProgram(shaderProgram); //Use shaderProgram object in shader or render calls
+    //glDeleteShader(vertexShader); //deleting shader objects since we have linked the 2 shader programs
+    //glDeleteShader(fragmentShader);
     glBindVertexArray(0);
 
     //Call Back functions
@@ -146,8 +162,23 @@ int main()
         glClearColor(rvalue,gvalue,bvalue,1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+
+        float timeValue = glfwGetTime();
+        float greenValue =(sin(timeValue)/ 2.0f) +0.5f;
+        float redValue = (sin(timeValue)/ 2.5f) *1.86f;
+        //int vertexColorLocation = glGetUniformLocation(shaderProgram, "GreenVal");
+        //int vertexColorLocation2 = glGetUniformLocation(shaderProgram, "RedVal");
+
+
         //ALWAYS DRAW AFTER UPDATING THE BUFFER!
-        glUseProgram(shaderProgram);
+        ourShader.use();
+        ourShader.setFloat("GreenVal",greenValue);
+        ourShader.setFloat("RedVal", redValue);
+
+        //glUseProgram(shaderProgram);
+        //glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        //glUniform1f(vertexColorLocation, greenValue);
+        //glUniform1f(vertexColorLocation2, redValue);
         glBindVertexArray(VAO);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -159,7 +190,7 @@ int main()
     }
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-    glDeleteProgram(shaderProgram);
+//    glDeleteProgram(shaderProgram);
     glfwDestroyWindow(window);
     glfwTerminate();
     return 0;
