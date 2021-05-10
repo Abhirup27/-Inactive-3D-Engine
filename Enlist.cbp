@@ -32,16 +32,32 @@
 			<Add option="-Wall" />
 			<Add option="-std=gnu++17" />
 			<Add option="-fexceptions" />
+			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add library="libs/libglew32d.a" />
 			<Add library="libs/libglew32d.dll.a" />
 			<Add library="libs/libglfw3dll.a" />
+			<Add directory="libs" />
 		</Linker>
 		<Unit filename="glad.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="imgui.cpp" />
+		<Unit filename="imgui_draw.cpp" />
+		<Unit filename="imgui_impl_glfw.cpp" />
+		<Unit filename="imgui_impl_opengl3.cpp" />
+		<Unit filename="imgui_tables.cpp" />
+		<Unit filename="imgui_widgets.cpp" />
 		<Unit filename="include/SHADER_S.h" />
+		<Unit filename="include/imconfig.h" />
+		<Unit filename="include/imgui.h" />
+		<Unit filename="include/imgui_impl_glfw.h" />
+		<Unit filename="include/imgui_impl_opengl3.h" />
+		<Unit filename="include/imgui_internal.h" />
+		<Unit filename="include/imstb_rectpack.h" />
+		<Unit filename="include/imstb_textedit.h" />
+		<Unit filename="include/imstb_truetype.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="shaders/Tfrag.fs" />
 		<Unit filename="shaders/test.vs" />
